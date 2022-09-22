@@ -1,6 +1,39 @@
 {% extends "base.html" %}
 {% block content%}
 <div class="container">
-
+  <div class="row">
+    <h2 class="tittle text-center">Coin Market</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">price</th>
+          <th scope="col">1h%</th>
+          <th scope="col">24h%</th>
+          <th scope="col">7d%</th>
+          <th scope="col">Market Cap</th>
+          <th scope="col">Volume(24h)</th>
+          <th scope="col">Circulating Supply</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- {% for coin in coins %}
+            <tr>
+                <td class="align-middle">{{ coin.name }}</td>
+            </tr>
+        {% endfor %} -->
+        <tr>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+          <td>@mdo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
