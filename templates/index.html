@@ -1,39 +1,88 @@
-{% extends "base.html" %}
-{% block content%}
-<div class="container">
-  <div class="row">
-    <h2 class="tittle text-center">Coin Market</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">price</th>
-          <th scope="col">1h%</th>
-          <th scope="col">24h%</th>
-          <th scope="col">7d%</th>
-          <th scope="col">Market Cap</th>
-          <th scope="col">Volume(24h)</th>
-          <th scope="col">Circulating Supply</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- {% for coin in coins %}
-            <tr>
-                <td class="align-middle">{{ coin.name }}</td>
-            </tr>
-        {% endfor %} -->
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-{% endblock %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>{% block title %}Coin market{% endblock %}</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h2 class="tittle text-center">Coin Market</h2>
+        {% verbatim %}
+        <div id="app">
+          <h2>{{ message }}</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">price</th>
+                <th scope="col">1h%</th>
+                <th scope="col">24h%</th>
+                <th scope="col">7d%</th>
+                <th scope="col">Market Cap</th>
+                <th scope="col">Volume(24h)</th>
+                <th scope="col">Circulating Supply</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="coin in coins" :key="coin.id">
+                <td>{{ coin.name }}</td>
+                <td>{{ coin.price }}</td>
+                <td>{{ coin.time_1h }}</td>
+                <td>{{ coin.time_24h }}</td>
+                <td>{{ coin.time_7d }}</td>
+                <td>{{ coin.market_cap }}</td>
+                <td>{{ coin.volume_24h }}</td>
+                <td>{{ coin.circulating_supply }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div
+        {% endverbatim %}
+      </div>
+    </div>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      Vue.createApp({
+        data(){
+          return {
+            status: true,
+            coins: [],
+            interval: null
+          };
+        },
+        methods: {
+          getCoins(){
+            axios.get('http://localhost:8000/api/coin-list/')
+              .then((response) => {
+                this.coins = response.data;
+                console.log(response.data)
+            })
+          }
+        },
+        mounted(){
+          this.getCoins()
+        },
+        created(){
+          this.interval = setInterval(() =>{
+            this.getCoins()},3000)
+        },
+        destroyed(){
+          clearInterval(this.interval)
+        }
+      }).mount('#app')
+    </script>    
+  </body>
+</html>
+
+
+
+
+
